@@ -1,1 +1,2 @@
 # monopoly_calculator
+一个简单的大富翁资金控制系统
