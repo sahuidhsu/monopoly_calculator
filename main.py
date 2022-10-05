@@ -62,9 +62,9 @@ while gaming:
     print("当前余额状态：")
     for i in range(player_num):
         print(f"P{i+1} - {playerList[i].getName()}：{playerList[i].getBalance()}元")
-    print("操作列表：1.转账 2.扣除钱 3.添加钱 4.退出")
+    print("操作列表：1.转账 2.扣除钱 3.添加钱 4.经过起点(+200) 5.出监狱(-50) 6.退出")
     choice = 100
-    while choice > 4 or choice < 1:
+    while choice > 6 or choice < 1:
         try:
             choice = int(input("请输入对应数字进行操作："))
         except BaseException:
@@ -81,7 +81,7 @@ while gaming:
             else:
                 validInput = True
         clear()
-        if payPlayer<player_num and receivePlayer<player_num and payPlayer!=receivePlayer:
+        if payPlayer<player_num and payPlayer>=0 and receivePlayer<player_num and receivePlayer>=0 and payPlayer!=receivePlayer:
             transfer(playerList[payPlayer], playerList[receivePlayer], amount)
         else:
             print("转账失败！请检查输入！")
@@ -96,7 +96,7 @@ while gaming:
             else:
                 validInput = True
         clear()
-        if playerID<player_num:
+        if (playerID < player_num) and (playerID >= 0):
             if playerList[playerID].getBalance() >= amount:
                 playerList[playerID].subtractBalance(amount)
                 print(f"扣除成功！已从{playerList[playerID].getName()}扣除{amount}元！剩余{playerList[playerID].getBalance()}元")
@@ -115,7 +115,7 @@ while gaming:
                     print("请输入整数！")
                 else:
                     inputIsInt = True
-            if playerID < player_num:
+            if (playerID < player_num) and (playerID >= 0):
                 valid = True
             else:
                 print("玩家ID不存在！")
@@ -131,6 +131,42 @@ while gaming:
         playerList[playerID].addBalance(amount)
         print(f"添加成功！已向{playerList[playerID].getName()}添加{amount}元！当前余额{playerList[playerID].getBalance()}元")
     elif choice == 4:
+        valid = False
+        while not valid:
+            inputIsInt = False
+            while not inputIsInt:
+                try:
+                    playerID = int(input("请输入玩家ID："))-1
+                except BaseException:
+                    print("请输入整数！")
+                else:
+                    inputIsInt = True
+            if (playerID < player_num) and (playerID >= 0):
+                valid = True
+            else:
+                print("玩家ID不存在！")
+        clear()
+        playerList[playerID].addBalance(200)
+        print(f"恭喜走完一轮！{playerList[playerID].getName()}玩家获得了200元！当前余额{playerList[playerID].getBalance()}元")
+    elif choice == 5:
+        valid = False
+        while not valid:
+            inputIsInt = False
+            while not inputIsInt:
+                try:
+                    playerID = int(input("请输入玩家ID："))-1
+                except BaseException:
+                    print("请输入整数！")
+                else:
+                    inputIsInt = True
+            if (playerID < player_num) and (playerID >= 0):
+                valid = True
+            else:
+                print("玩家ID不存在！")
+        clear()
+        playerList[playerID].subtractBalance(50)
+        print(f"真可惜啊！{playerList[playerID].getName()}玩家花了50元出监狱了！当前余额{playerList[playerID].getBalance()}元")
+    elif choice == 6:
         clear()
         gaming = False
         print("游戏结束！感谢使用此系统！")
